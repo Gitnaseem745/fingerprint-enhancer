@@ -3,3 +3,7 @@ venv/
 *.pyc
 .vscode/launch.json
 images/
+salempur/
+flipped_&_enhanced/
+enhanced/
+*.zip

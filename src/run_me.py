@@ -66,4 +66,4 @@ for batch in batches:
             except Exception as e:
                 print(f"     [Error] Failed to process {img_name}: {str(e)}")
 
-print("\\n✅ Bulk processing complete!")
+print("\\nBulk processing complete!")
