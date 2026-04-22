@@ -45,7 +45,12 @@ const options = {
     recursive: false,
     cleanup: true,
     flipOnly: false,
-    flip: false
+    flip: false,
+    onProgress: (prog) => {
+        // Clear from cursor to end of line and update progress
+        const fileName = prog.file.length > 40 ? prog.file.substring(0, 37) + '...' : prog.file;
+        process.stdout.write(`\\r\\x1b[KProcessing [${prog.current}/${prog.total}]: ${fileName}`);
+    }
 };
 
 for (let i = 1; i < args.length; i++) {

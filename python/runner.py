@@ -73,7 +73,12 @@ def main():
             sys.exit(1)
             
     results = []
-    for job in jobs:
+    total = len(jobs)
+    for i, job in enumerate(jobs):
+        file_name = os.path.basename(job.get('input', ''))
+        progress_msg = {"current": i + 1, "total": total, "file": file_name}
+        print(f"___FINHANCE_PROGRESS___={json.dumps(progress_msg)}", flush=True)
+        
         res = process_image(job, enhancer)
         res['input'] = job.get('input')
         results.append(res)
