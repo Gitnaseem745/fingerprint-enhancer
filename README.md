@@ -92,3 +92,5 @@ processFingerprints();
 ## Credits & Attribution
 
 This npm package acts as an orchestrator wrapper around the excellent Python structural logic created by [Utkarsh-Deshmukh](https://github.com/Utkarsh-Deshmukh/Fingerprint-Enhancement-Python).
+
+The underlying Python source code is licensed under the **BSD 2-Clause License**. See [THIRD_PARTY_LICENSES.md](./THIRD_PARTY_LICENSES.md) for the full license text.

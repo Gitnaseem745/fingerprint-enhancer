@@ -20,7 +20,7 @@
     "image-processing",
     "wrapper"
   ],
-  "author": "",
+  "author": "Naseem Ansari <https://github.com/Gitnaseem745>",
   "license": "ISC",
   "dependencies": {
     "adm-zip": "^0.5.10"
