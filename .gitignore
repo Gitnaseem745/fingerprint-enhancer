@@ -7,3 +7,7 @@ salempur/
 flipped_&_enhanced/
 enhanced/
 *.zip
+node_modules/
+temp/
+test_mock_data/
+test_output/

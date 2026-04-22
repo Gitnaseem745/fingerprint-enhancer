@@ -1,0 +1,28 @@
+{
+  "name": "finhance",
+  "version": "1.0.0",
+  "description": "Production-ready wrapper for fingerprint image enhancement using Gabor filters",
+  "main": "index.js",
+  "bin": {
+    "finhance": "./bin/finhance.js"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gitnaseem745/fingerprint-enhancer.git"
+  },
+  "keywords": [
+    "fingerprint",
+    "enhancement",
+    "gabor",
+    "image-processing",
+    "wrapper"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "adm-zip": "^0.5.10"
+  }
+}

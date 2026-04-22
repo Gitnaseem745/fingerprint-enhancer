@@ -1,52 +1,94 @@
-# Fingerprint-Enhancement-Python
+# finhance
 
-Uses oriented gabor filter bank to enhance the fingerprint image. The orientation of the gabor filters is decided by the orientation of ridges in the input image. 
+A production-ready Node.js wrapper for high-performance python fingerprint image enhancement using Gabor filters. 
 
-## Installation and Running the tests
+This package allows you to integrate complex python fingerprint enhancement directly into your Node.js pipelines effortlessly, or process images from your terminal using the built-in CLI.
 
-### method 1 - use the library
-  ```
-  pip install fingerprint_enhancer
-  ```
-  
-  **Usage:**
-  ```
-  import fingerprint_enhancer								# Load the library
-  import cv2
-  
-  img = cv2.imread('image_path', 0)						# read input image
-  out = fingerprint_enhancer.enhance_fingerprint(img)		# enhance the fingerprint image
-  cv2.imshow('enhanced_image', out);						# display the result
-  cv2.waitKey(0)											# hold the display window
-  ```
-  - Alternatively, the script "src/example.py" can be used to run the example for this library.
+## Requirements
+Since the core enhancement engine is written in Python, you must have Python installed and available in your environment, along with the following packages:
+```bash
+pip install numpy opencv-python scipy
+```
 
-### method 2 - use the source codes
-1) go into the src folder
-- if on "develop" branch, run the file "example.py"
-- if on "master" branch, run the file file "main_enhancement.py" 
+## Installation
 
-2) The sample images are stored in the "images" folder
+Install locally inside your Node.js project:
+```bash
+npm install finhance
+```
 
-3) The enhanced image will be stored in the "enhanced" folder
+Or run directly via `npx` (make sure dependencies are installed!):
+```bash
+npx finhance <input_path>
+```
 
-## Linter check:
-run the command `python devtool.py run` to run linter checks.
+## CLI Usage
 
-## important note:
-The Develop Branch is what is up to date. Other branches might not be up to date.
+The executable takes a file, directory, or `.zip` archive as input.
 
+```bash
+# Enhance a single image
+npx finhance ./image.jpg --output ./results
 
-## Results
-![temp](https://cloud.githubusercontent.com/assets/13918778/25770604/637b3f38-31ee-11e7-818f-1f8359c96e07.jpg)
+# Recursively enhance a folder of images
+npx finhance ./dataset --recursive
 
-## Theory
-- We use oriented gabor filters to enhance a fingerprint image. The orientation of the gabor filters are based on the orientation of the ridges. the shape of the gabor filter is based on the frequency and wavelength of the ridges.
+# Process an entire ZIP file automatically
+npx finhance ./dataset.zip --format jpg
 
-## License
-- This project is licensed under the BSD 2 License - see the LICENSE.md file for details
+# Only flip images horizontally (no enhancement)
+npx finhance ./dataset --flip-only
 
-## Acknowledgements
-- This program is based on the paper: Hong, L., Wan, Y., and Jain, A. K. 'Fingerprint image enhancement: Algorithm and performance evaluation'. IEEE Transactions on Pattern Analysis and Machine Intelligence 20, 8 (1998), pp 777-789.
+# Enhance AND flip images
+npx finhance ./dataset --flip
+```
 
-- The author would like to thank Dr. Peter Kovesi (This code is a python implementation of his work)
+### Options
+*   `--output, -o`: Target output folder (Defaults to `<input_dir>/finhance_output`)
+*   `--recursive, -r`: Recursively search subdirectories for images
+*   `--format, -f`: Output image format (`png` or `jpg`)
+*   `--flip-only`: Bypass enhancement and just flip the images horizontally
+*   `--flip`: Applies enhancement AND flipping
+*   `--keep-temp`: Prevent the system from cleaning up the temporary zip extraction folder
+
+## API Usage
+
+You can seamlessly integrate `finhance` into your Node.js code using `async/await`.
+
+```javascript
+const { enhance } = require('finhance');
+
+async function processFingerprints() {
+    try {
+        const results = await enhance('./fingerprints.zip', {
+            outputDir: './enhanced-output',
+            recursive: true,
+            format: 'png',
+            flip: true // enhances and flips
+        });
+
+        const successes = results.filter(r => r.status === 'success');
+        console.log(`Processed ${successes.length} images!`);
+    } catch (e) {
+        console.error("Execution failed:", e.message);
+    }
+}
+
+processFingerprints();
+```
+
+### `enhance(inputPath, [options])`
+
+**Returns**: `Promise<Array>` - An array of objects detailing the operation status (`success` or `error`) and output locations.
+
+#### Options Object
+*   **`outputDir`** *(string)* - Absolute or relative path to output directory
+*   **`recursive`** *(boolean)* - Set to `true` to traverse subfolders (default: `false`)
+*   **`format`** *(string)* - `"png"` or `"jpg"` (default: `"png"`)
+*   **`cleanup`** *(boolean)* - Set to `false` to keep temp expanded zip files (default: `true`)
+*   **`flipOnly`** *(boolean)* - Set to `true` to ONLY flip images, ignoring enhancement.
+*   **`flip`** *(boolean)* - Set to `true` to perform both enhancement and flipping.
+
+## Credits & Attribution
+
+This npm package acts as an orchestrator wrapper around the excellent Python structural logic created by [Utkarsh-Deshmukh](https://github.com/Utkarsh-Deshmukh/Fingerprint-Enhancement-Python).
