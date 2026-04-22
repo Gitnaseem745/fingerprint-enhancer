@@ -1,6 +1,6 @@
 {
   "name": "finhance",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Production-ready wrapper for fingerprint image enhancement using Gabor filters",
   "main": "index.js",
   "bin": {
