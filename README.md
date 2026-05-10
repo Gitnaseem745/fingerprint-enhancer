@@ -41,6 +41,9 @@ npx finhance ./dataset --flip-only
 
 # Enhance AND flip images
 npx finhance ./dataset --flip
+
+# Upscale and enhance to 4k resolution
+npx finhance ./image.jpg --res 4k
 ```
 
 ### Options
@@ -49,6 +52,7 @@ npx finhance ./dataset --flip
 *   `--format, -f`: Output image format (`png` or `jpg`)
 *   `--flip-only`: Bypass enhancement and just flip the images horizontally
 *   `--flip`: Applies enhancement AND flipping
+*   `--res`: Enhance image resolution (`1080p`, `2k`, `4k`) to fix blur
 *   `--keep-temp`: Prevent the system from cleaning up the temporary zip extraction folder
 
 ## API Usage
@@ -64,7 +68,8 @@ async function processFingerprints() {
             outputDir: './enhanced-output',
             recursive: true,
             format: 'png',
-            flip: true // enhances and flips
+            flip: true, // enhances and flips
+            res: '1080p' // upscale to 1080p
         });
 
         const successes = results.filter(r => r.status === 'success');
@@ -88,6 +93,7 @@ processFingerprints();
 *   **`cleanup`** *(boolean)* - Set to `false` to keep temp expanded zip files (default: `true`)
 *   **`flipOnly`** *(boolean)* - Set to `true` to ONLY flip images, ignoring enhancement.
 *   **`flip`** *(boolean)* - Set to `true` to perform both enhancement and flipping.
+*   **`res`** *(string)* - Target resolution for upscaling (e.g., `'1080p'`, `'2k'`, `'4k'`).
 
 ## Credits & Attribution
 

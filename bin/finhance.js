@@ -19,6 +19,7 @@ Options:
   --keep-temp       Do not cleanup temp files during zip extraction
   --flip-only       Only flip the images horizontally (no enhancement)
   --flip            Flip images horizontally during enhancement
+  --res             Enhance image resolution (1080p, 2k, 4k) to fix blur
   --help, -h        Show this help message
 
 Examples:
@@ -26,6 +27,7 @@ Examples:
   npx finhance archive.zip --format jpg
   npx finhance ./images --flip            # Enhance and flip
   npx finhance ./images --flip-only       # Just flip
+  npx finhance ./images --res 4k          # Upscale and enhance to 4k resolution
     `);
 }
 
@@ -46,10 +48,9 @@ const options = {
     cleanup: true,
     flipOnly: false,
     flip: false,
+    res: null,
     onProgress: (prog) => {
-        // Clear from cursor to end of line and update progress
-        const fileName = prog.file.length > 40 ? prog.file.substring(0, 37) + '...' : prog.file;
-        process.stdout.write(`\\r\\x1b[KProcessing [${prog.current}/${prog.total}]: ${fileName}`);
+        console.log(`Processing [${prog.current}/${prog.total}]: ${prog.file}`);
     }
 };
 
@@ -76,6 +77,9 @@ for (let i = 1; i < args.length; i++) {
         case '--flip':
             options.flip = true;
             break;
+        case '--res':
+            options.res = args[++i];
+            break;
         default:
             console.warn(`Unknown option ignored: ${args[i]}`);
     }
@@ -88,15 +92,15 @@ enhance(inputPath, options)
         const successes = results.filter(r => r.status === 'success');
         const errors = results.filter(r => r.status === 'error');
         
-        console.log(`\\nProcessing Complete!`);
+        console.log(`\nProcessing Complete!`);
         console.log(`- Successfully processed: ${successes.length} images`);
         if (errors.length > 0) {
             console.log(`- Failed: ${errors.length} images`);
-            console.log(`\\nSample Errors:`);
-            console.log(errors.slice(0, 3).map(e => `  -> ${e.input}: ${e.error}`).join('\\n'));
+            console.log(`\nSample Errors:`);
+            console.log(errors.slice(0, 3).map(e => `  -> ${e.input}: ${e.error}`).join('\n'));
         }
     })
     .catch((err) => {
-        console.error(`\\nFatal Error: ${err.message}`);
+        console.error(`\nFatal Error: ${err.message}`);
         process.exit(1);
     });

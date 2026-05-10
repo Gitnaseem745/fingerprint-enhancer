@@ -3,6 +3,7 @@ import json
 import cv2
 import traceback
 import os
+import numpy as np
 from fingerprint_enhancer.fingerprint_image_enhancer import FingerprintImageEnhancer
 
 def process_image(job, enhancer):
@@ -10,6 +11,7 @@ def process_image(job, enhancer):
     output_path = job.get('output')
     flip_only = job.get('flip_only', False)
     flip = job.get('flip', False)
+    target_res = job.get('res')
     
     if not os.path.exists(input_path):
         return {"status": "error", "error": f"Input path does not exist: {input_path}"}
@@ -37,7 +39,25 @@ def process_image(job, enhancer):
             img = cv2.flip(img, 1)
             
         enhanced_img = enhancer.enhance(img, invert_output=True)
-        cv2.imwrite(output_path, 255 * enhanced_img)
+        out_img = (255 * enhanced_img).astype(np.uint8)
+        
+        if target_res:
+            target_res_lower = str(target_res).lower()
+            h, w = out_img.shape[:2]
+            target_size = max(h, w)
+            
+            if target_res_lower == '1080p':
+                target_size = 1920
+            elif target_res_lower == '2k':
+                target_size = 2560
+            elif target_res_lower == '4k':
+                target_size = 3840
+                
+            scale = target_size / max(h, w)
+            if scale > 1.0:
+                out_img = cv2.resize(out_img, (int(w * scale), int(h * scale)), interpolation=cv2.INTER_LANCZOS4)
+                
+        cv2.imwrite(output_path, out_img)
         
         return {"status": "success", "output": output_path}
         
