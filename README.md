@@ -1,6 +1,8 @@
-# finhance
-
-A production-ready Node.js wrapper for high-performance python fingerprint image enhancement using Gabor filters. 
+<div align="center">
+  <img src="public/showcase.png" alt="Finhance Showcase" width="100%">
+  <h1>finhance</h1>
+  <p><b>A production-ready Node.js wrapper for high-performance python fingerprint image enhancement using Gabor filters.</b></p>
+</div>
 
 This package allows you to integrate complex python fingerprint enhancement directly into your Node.js pipelines effortlessly, or process images from your terminal using the built-in CLI.
 
