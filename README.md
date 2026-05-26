@@ -28,9 +28,11 @@ npx finhance <input_path>
 
 The executable takes a file, directory, or `.zip` archive as input.
 
+**Supported image formats:** `.jpg`, `.jpeg`, `.png`, `.bmp`, `.dib`, `.tif`, `.tiff`
+
 ```bash
 # Enhance a single image
-npx finhance ./image.jpg --output ./results
+npx finhance ./fingerprint.dib --output ./results
 
 # Recursively enhance a folder of images
 npx finhance ./dataset --recursive
