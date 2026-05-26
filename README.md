@@ -30,8 +30,36 @@ The executable takes a file, directory, or `.zip` archive as input.
 
 **Supported image formats:** `.jpg`, `.jpeg`, `.png`, `.bmp`, `.dib`, `.tif`, `.tiff`
 
+On launch the CLI prints a full-colour banner with version, author, engine and runtime info, followed by timestamped log entries for every phase of processing.
+
+```
+    ╔═══════════════════════════════════════════════════════╗
+    ║   ███████╗██╗███╗   ██╗██╗  ██╗ █████╗ ███╗   ██╗    ║
+    ║   █████╗  ██║██╔██╗ ██║███████║███████║██╔██╗ ██║    ║
+    ║   ...                                                 ║
+    ╚═══════════════════════════════════════════════════════╝
+
+  Version  : v1.3.0      Author : Naseem Ansari
+  Engine   : Gabor Filter (Python/OpenCV)
+
+  ▶ Input Validation
+  [INFO]  2026-05-26 12:50:00  Input type : Single file
+  [INFO]  2026-05-26 12:50:00  File       : fingerprint.dib
+  [  OK ]  2026-05-26 12:50:00  Input validated
+
+  ▶ Processing
+  [PROC]  █████████████████████████ 100%  [1/1]  fingerprint.dib
+
+  ▶ Summary
+    Total       : 1 image(s)
+    Succeeded   : 1
+    Elapsed     : 5.42s
+```
+
+### Examples
+
 ```bash
-# Enhance a single image
+# Enhance a single image (including .dib format)
 npx finhance ./fingerprint.dib --output ./results
 
 # Recursively enhance a folder of images
@@ -58,6 +86,20 @@ npx finhance ./image.jpg --res 4k
 *   `--flip`: Applies enhancement AND flipping
 *   `--res`: Enhance image resolution (`1080p`, `2k`, `4k`) to fix blur
 *   `--keep-temp`: Prevent the system from cleaning up the temporary zip extraction folder
+
+### CLI Logging
+
+The CLI provides production-grade, colour-coded output inspired by professional security and analysis tools:
+
+| Tag | Meaning |
+|-----|---------|
+| `[INFO]` | Informational messages (input details, config echo) |
+| `[  OK ]` | Step completed successfully |
+| `[WARN]` | Non-fatal warnings (unknown flags, etc.) |
+| `[FAIL]` | Errors and failures |
+| `[PROC]` | Per-image progress with inline progress bar |
+
+Every log line is prefixed with an ISO timestamp for traceability.
 
 ## API Usage
 
